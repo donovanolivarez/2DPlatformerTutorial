@@ -42,22 +42,18 @@ public class PlayerController : MonoBehaviour
             crouch = false;
         }
 
-        if (attackTimer <= 0f && Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Fire1"))
         {
-            attackTimer = 5f;
-            if (!animator.GetBool("IsAttacking"))
-            {
-                animator.SetBool("IsAttacking", true);
-                animator.SetInteger("AttackType", Random.Range(1, 4));
-            }
-            attackTimer -= Time.deltaTime;
-
+            animator.SetTrigger("IsAttacking");
+            animator.SetInteger("AttackType", Random.Range(1, 4));
         }
-    }
 
-    public void OnAttackFinish()
-    {
-        animator.SetBool("IsAttacking", false);
+        if (animator.GetCurrentAnimatorStateInfo(0).IsTag("Base Layer") && Input.GetButtonDown("Fire1"))
+        {
+            animator.SetBool("IsJumping", false);
+            animator.SetTrigger("IsAttacking");
+           // animator.SetBool("IsJumping", true);
+        }
     }
 
     public void onLanding()
